@@ -50,7 +50,6 @@ export default {
           stateBtn: this.addStateBtn,
           delBtn: this.addDelBtn
         });
-
         this.todos.forEach((todo, index) => {
           todo.id = index + 1;
         });
@@ -68,11 +67,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .btn {
-    display: none;
-  }
-</style>
-
-
