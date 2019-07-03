@@ -24,8 +24,8 @@
       </tbody>
     </table>
     <h2>新規タスクの追加</h2>
-    <input type="text" v-model.lazy="addComment">
-    <button @click="addTodo">追加</button>
+    <input type="text" v-model.lazy="comment">
+    <button @click="addTask">追加</button>
   </div>
 </template>
 
@@ -33,31 +33,29 @@
 export default {
   data: function () {
     return {
-      addId: '',
-      addComment: '',
-      addStateBtn: '作業中',
-      addDelBtn: '削除',
+      comment: '',
       todos: [],
     }
   },
   methods:{
     // タスクを追加する関数
-    addTodo: function () {
-      if(this.addComment) {
+    addTask: function () {
+      // コメントがあるなら配列todosにタスクをpush
+      if(this.comment) {
         this.todos.push({
-          id: this.addId,
-          comment: this.addComment,
-          stateBtn: this.addStateBtn,
-          delBtn: this.addDelBtn
+          comment: this.comment,
+          stateBtn: '作業中',
+          delBtn: '削除'
         });
         this.todos.forEach((todo, index) => {
           todo.id = index + 1;
         });
-        this.addComment = '';
+        this.comment = '';
       }
     },
     // 状態ボタンを切り替える関数
     changeState: function(index) {
+      // 状態ボタンが'作業中'なら'完了'、'完了'なら'作業中'に切り替え
       if(this.todos[index].stateBtn === '作業中'){
           this.todos[index].stateBtn = '完了';
       } else {
