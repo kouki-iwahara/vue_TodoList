@@ -19,7 +19,7 @@
           <td>{{ todo.id }}</td>
           <td>{{ todo.comment }}</td>
           <td><button @click="changeState(todos.indexOf(todo))">{{ todo.stateBtn }}</button></td>
-          <td><button @click="delTask(todos.indexOf(todo))">{{ todo.delBtn }}</button></td>
+          <td><button @click="cleanTask(todos.indexOf(todo))">{{ todo.delBtn }}</button></td>
         </tr>
       </tbody>
     </table>
@@ -65,7 +65,7 @@ export default {
       }
     },
     // タスクを削除する関数
-    delTask: function(index) {
+    cleanTask: function(index) {
       this.todos.splice(index, 1);
       // idを振り直す
       this.todos.forEach((todo, index) => {
