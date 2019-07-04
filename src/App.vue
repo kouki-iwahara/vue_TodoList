@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="todo in showTodos()" :key="todo.value">
+        <tr v-for="todo in changeTask()" :key="todo.value">
           <td>{{ todo.id }}</td>
           <td>{{ todo.comment }}</td>
           <td><button @click="changeState(todos.indexOf(todo))">{{ todo.stateBtn }}</button></td>
@@ -72,7 +72,8 @@ export default {
           todo.id = index + 1;
       });
     },
-    showTodos: function () {
+    // タスク状況によりラジオボタンで表示を切り替える関数
+    changeTask: function () {
       // ラジオボタンが'全て'の時、全てのタスクを表示
       if(this.radioBtnState === 'allState') {
         return this.todos;
