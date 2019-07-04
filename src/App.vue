@@ -2,9 +2,9 @@
   <div id="app">
     <h1>Todo List</h1>
     <form>
-      <input type="radio" name="state" checked>全て
-      <input type="radio" name="state">作業中
-      <input type="radio" name="state">完了
+      <input type="radio" value="allState" v-model="radioBtnState">全て
+      <input type="radio" value="working" v-model="radioBtnState">作業中
+      <input type="radio" valie="complete" v-model="radioBtnState">完了
     </form>
     <table>
       <thead>
@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="todo in todos" :key="todo.value">
+        <tr v-for="todo in showTodos" :key="todo.value">
           <td>{{ todo.id }}</td>
           <td>{{ todo.comment }}</td>
           <td><button @click="changeState(todos.indexOf(todo))">{{ todo.stateBtn }}</button></td>
@@ -35,6 +35,7 @@ export default {
     return {
       comment: '',
       todos: [],
+      radioBtnState: 'allState'
     }
   },
   methods:{
@@ -47,6 +48,7 @@ export default {
           stateBtn: '作業中',
           delBtn: '削除'
         });
+        // タスクにidを振る
         this.todos.forEach((todo, index) => {
           todo.id = index + 1;
         });
@@ -69,6 +71,25 @@ export default {
       this.todos.forEach((todo, index) => {
           todo.id = index + 1;
       });
+    }
+  },
+  computed: {
+    // ラジオボタンで画面を切り替える処理
+    showTodos: function () {
+      // ラジオボタンが'全て'の時、全てのタスクを表示
+      if(this.radioBtnState === 'allState') {
+        return this.todos;
+      } // ラジオボタンが'作業中'の時、作業中のタスクだけを残し表示
+        else if(this.radioBtnState === 'working') {
+          return this.todos.filter(function(todo){
+            return todo.stateBtn === '作業中';
+          });
+      } // ラジオボタンが'完了'の時、完了のタスクだけを残し表示
+        else {
+          return this.todos.filter(function(todo){
+            return todo.stateBtn === '完了';
+          });
+      }
     }
   }
 }
