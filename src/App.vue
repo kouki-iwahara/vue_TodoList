@@ -15,11 +15,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="todo in changeTask()" :key="todo.value">
+        <tr v-for="todo in changeTask" :key="todo.value">
           <td>{{ todo.id }}</td>
           <td>{{ todo.comment }}</td>
           <td><button @click="changeState(todos.indexOf(todo))">{{ todo.stateBtn }}</button></td>
-          <td><button @click="cleanTask(todos.indexOf(todo))">{{ todo.delBtn }}</button></td>
+          <td><button @click="delTask(todos.indexOf(todo))">{{ todo.delBtn }}</button></td>
         </tr>
       </tbody>
     </table>
@@ -65,13 +65,15 @@ export default {
       }
     },
     // タスクを削除する関数
-    cleanTask: function(index) {
+    delTask: function(index) {
       this.todos.splice(index, 1);
       // idを振り直す
       this.todos.forEach((todo, index) => {
           todo.id = index + 1;
       });
-    },
+    }
+  },
+  computed: {
     // タスク状況によりラジオボタンで表示を切り替える関数
     changeTask: function () {
       // ラジオボタンが'全て'の時、全てのタスクを表示
@@ -88,7 +90,7 @@ export default {
             return todo.stateBtn === '完了';
           });
       }
-    }
+    }    
   }
 }
 </script>
