@@ -4,7 +4,7 @@
     <form>
       <input type="radio" value="allState" v-model="radioBtnState">全て
       <input type="radio" value="working" v-model="radioBtnState">作業中
-      <input type="radio" valie="complete" v-model="radioBtnState">完了
+      <input type="radio" value="complete" v-model="radioBtnState">完了
     </form>
     <table>
       <thead>
@@ -15,16 +15,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="todo in changeTask" :key="todo.value">
+        <tr v-for="todo in computedTodos" :key="todo.value">
           <td>{{ todo.id }}</td>
           <td>{{ todo.comment }}</td>
-          <td><button @click="changeState(todos.indexOf(todo))">{{ todo.stateBtn }}</button></td>
-          <td><button @click="delTask(todos.indexOf(todo))">{{ todo.delBtn }}</button></td>
+          <td><button @click="changeState(computedTodos.indexOf(todo))">{{ todo.stateBtn }}</button></td>
+          <td><button @click="delTask(computedTodos.indexOf(todo))">{{ todo.delBtn }}</button></td>
         </tr>
       </tbody>
     </table>
     <h2>新規タスクの追加</h2>
-    <input type="text" v-model.lazy="comment">
+    <input type="text" v-model.trim="comment">
     <button @click="addTask">追加</button>
   </div>
 </template>
@@ -75,20 +75,22 @@ export default {
   },
   computed: {
     // タスク状況によりラジオボタンで表示を切り替える関数
-    changeTask: function () {
+    computedTodos: function() {
       // ラジオボタンが'全て'の時、全てのタスクを表示
       if(this.radioBtnState === 'allState') {
-        return this.todos;
-      } // ラジオボタンが'作業中'の時、作業中のタスクだけを残し表示
-        else if(this.radioBtnState === 'working') {
-          return this.todos.filter(function(todo){
-            return todo.stateBtn === '作業中';
-          });
-      } // ラジオボタンが'完了'の時、完了のタスクだけを残し表示
-        else {
-          return this.todos.filter(function(todo){
-            return todo.stateBtn === '完了';
-          });
+        return this.todos
+      }
+       // ラジオボタンが'作業中'の時、作業中のタスクだけを残し表示
+      if(this.radioBtnState === 'working') {
+        return this.todos.filter(function(todo){
+          return todo.stateBtn === '作業中';
+        });
+      }
+       // ラジオボタンが'完了'の時、完了のタスクだけを残し表示
+      if (this.radioBtnState === 'complete'){
+        return this.todos.filter(function(todo){
+          return todo.stateBtn === '完了';
+        });  
       }
     }    
   }
